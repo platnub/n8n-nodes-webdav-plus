@@ -1,4 +1,3 @@
-import type { IDataObject } from 'n8n-workflow';
 import { generateSecureUID, escapeICalText } from './security';
 
 /**
@@ -64,7 +63,7 @@ function unfoldICalendar(icalString: string): string {
  * Parses an iCalendar date-time string
  * Handles formats: 20231225T120000Z, 20231225T120000, 20231225
  */
-function parseICalDateTime(value: string, tzid?: string): { date: Date; wholeDay: boolean } {
+function parseICalDateTime(value: string, _tzid?: string): { date: Date; wholeDay: boolean } {
 	// Remove any remaining parameters
 	const cleanValue = value.replace(/^[^:]*:/, '');
 
@@ -208,7 +207,6 @@ export function parseICalendarEvent(
 	};
 
 	let inComponent = false;
-	let currentComponentType: 'VEVENT' | 'VTODO' | null = null;
 	let inVAlarm = false;
 	let currentAlarmLines: string[] = [];
 	const alarms: Alarm[] = [];
@@ -219,20 +217,17 @@ export function parseICalendarEvent(
 		if (line === 'BEGIN:VEVENT') {
 			if (componentFilter && componentFilter !== 'VEVENT') continue;
 			inComponent = true;
-			currentComponentType = 'VEVENT';
 			event.componentType = 'VEVENT';
 			continue;
 		}
 		if (line === 'BEGIN:VTODO') {
 			if (componentFilter && componentFilter !== 'VTODO') continue;
 			inComponent = true;
-			currentComponentType = 'VTODO';
 			event.componentType = 'VTODO';
 			continue;
 		}
 		if (line === 'END:VEVENT' || line === 'END:VTODO') {
 			inComponent = false;
-			currentComponentType = null;
 			continue;
 		}
 		if (line === 'BEGIN:VALARM') {

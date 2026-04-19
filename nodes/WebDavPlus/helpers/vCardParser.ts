@@ -311,7 +311,7 @@ export function parseVCard(
 				contact.fullName = extractValue(line);
 				break;
 
-			case 'N':
+			case 'N': {
 				const name = parseName(extractValue(line));
 				contact.firstName = name.firstName;
 				contact.lastName = name.lastName;
@@ -319,44 +319,50 @@ export function parseVCard(
 				contact.namePrefix = name.namePrefix;
 				contact.nameSuffix = name.nameSuffix;
 				break;
+			}
 
 			case 'NICKNAME':
 				contact.nickname = extractValue(line);
 				break;
 
-			case 'EMAIL':
+			case 'EMAIL': {
 				const email = parseTypedValue(line);
 				if (email.value) {
 					contact.email!.push(email);
 				}
 				break;
+			}
 
-			case 'TEL':
+			case 'TEL': {
 				const phone = parseTypedValue(line);
 				if (phone.value) {
 					contact.phone!.push(phone);
 				}
 				break;
+			}
 
-			case 'ADR':
+			case 'ADR': {
 				const address = parseAddress(line);
 				if (address.street || address.city || address.country || address.postalCode) {
 					contact.address!.push(address);
 				}
 				break;
+			}
 
-			case 'URL':
+			case 'URL': {
 				const url = parseTypedValue(line);
 				if (url.value) {
 					contact.url!.push(url);
 				}
 				break;
+			}
 
-			case 'ORG':
+			case 'ORG': {
 				const orgParts = extractValue(line).split(';');
 				contact.organization = orgParts[0] || undefined;
 				contact.department = orgParts[1] || undefined;
 				break;
+			}
 
 			case 'TITLE':
 				contact.title = extractValue(line);
@@ -388,24 +394,27 @@ export function parseVCard(
 				}
 				break;
 
-			case 'CATEGORIES':
+			case 'CATEGORIES': {
 				const cats = extractValue(line).split(',').map(c => c.trim()).filter(c => c);
 				contact.categories!.push(...cats);
 				break;
+			}
 
-			case 'RELATED':
+			case 'RELATED': {
 				const relation = parseRelation(line);
 				if (relation.value) {
 					contact.relations!.push(relation);
 				}
 				break;
+			}
 
-			case 'IMPP':
+			case 'IMPP': {
 				const impp = parseIMPP(line);
 				if (impp.value) {
 					contact.impp!.push(impp);
 				}
 				break;
+			}
 
 			default:
 				// Handle X- properties for social profiles

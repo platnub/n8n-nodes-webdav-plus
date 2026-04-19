@@ -9,7 +9,7 @@ import { WebDavPlusApi } from '../../../credentials/WebDavPlusApi.credentials';
  */
 export async function createCalDavClient(
 	credentials: ICredentialDataDecryptedObject,
-	requestTimeout: number = 60,
+	_requestTimeout: number = 60,
 ): Promise<DAVClient> {
 	const baseUrl = WebDavPlusApi.getBaseUrl(credentials);
 
@@ -39,7 +39,7 @@ export async function createCalDavClient(
  */
 export async function createCardDavClient(
 	credentials: ICredentialDataDecryptedObject,
-	requestTimeout: number = 60,
+	_requestTimeout: number = 60,
 ): Promise<DAVClient> {
 	const baseUrl = WebDavPlusApi.getBaseUrl(credentials);
 

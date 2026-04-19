@@ -22,7 +22,7 @@ export function isValidUID(uid: string): boolean {
 	}
 	// Only allow safe characters: alphanumeric, hyphens, dots, underscores, and @
 	// Reject any path traversal attempts (../ or ..\)
-	const safePattern = /^[a-zA-Z0-9\-\._@]+$/;
+	const safePattern = /^[a-zA-Z0-9\-._@]+$/;
 	const hasPathTraversal = /\.\.[\\/]/.test(uid);
 	return safePattern.test(uid) && !hasPathTraversal && uid.length <= 255;
 }
